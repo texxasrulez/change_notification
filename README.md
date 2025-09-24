@@ -32,7 +32,6 @@ Optionally copy `plugins/change_notification/config.inc.php.dist` to
 ## Security & notes
 - Files are stored per-user in a non-browsable directory and served only through
   the plugin endpoint `plugin.change_notification.get`, which checks the logged-in user.
-- Uploaded file names are sanitized and replaced with a stable UUID-like name.
 - Max size defaults to 2MB; MIME and extension validated.
 
 ## Uninstall
