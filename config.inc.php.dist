@@ -1,0 +1,21 @@
+<?php
+// change_notification plugin configuration sample
+
+// Debugging
+$config['change_notification.debug'] = false;
+
+// Where to store uploaded sounds (must be writable by webserver user)
+// Defaults to the plugin's own user_sounds/ directory.
+$config['change_notification.storage_dir'] = __DIR__ . '/user_sounds';
+
+// Maximum upload size in bytes (default 2MB)
+$config['change_notification.max_bytes'] = 2 * 1024 * 1024;
+
+// Allowed extensions / mime types
+$config['change_notification.allowed_ext']  = ['mp3','ogg','flac','wav','m4a'];
+$config['change_notification.allowed_mime'] = [
+  'audio/mpeg','audio/ogg','audio/flac','audio/wav','audio/x-wav','audio/mp4','audio/x-m4a'
+];
+
+// If true, remove the user's previous upload when a new one is saved
+$config['change_notification.replace_old'] = true;
