@@ -12,7 +12,7 @@ Upload a per-user audio file (mp3/ogg/flac/wav/m4a) and use it as the
 composer require texxasrulez/change_notification
 ```
 
-# or copy `plugins/change_notification` into your Roundcube `plugins/` dir
+Manual install: copy `change_notification` into your Roundcube `plugins/` dir
 Then enable in `config/config.inc.php`:
 ```
 $config['plugins'][] = 'change_notification';
