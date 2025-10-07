@@ -1,5 +1,12 @@
 # change_notification — Roundcube plugin
 
+[![Packagist](https://img.shields.io/packagist/dt/texxasrulez/change_notification?style=plastic)](https://packagist.org/packages/texxasrulez/change_notification)
+[![Packagist Version](https://img.shields.io/packagist/v/texxasrulez/change_notification?style=plastic&logo=packagist&logoColor=white)](https://packagist.org/packages/texxasrulez/change_notification)
+[![Project license](https://img.shields.io/github/license/texxasrulez/change_notification?style=plastic)](https://github.com/texxasrulez/change_notification/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/texxasrulez/change_notification?style=plastic&logo=github)](https://github.com/texxasrulez/change_notification/stargazers)
+[![issues](https://img.shields.io/github/issues/texxasrulez/change_notification)](https://github.com/texxasrulez/change_notification/issues)
+[![Donate to this project using Paypal](https://img.shields.io/badge/paypal-donate-blue.svg?style=plastic&logo=paypal)](https://www.paypal.me/texxasrulez)
+
 **License:** GPLv3  
 **Composer:** `texxasrulez/change_notification` (type: `roundcube-plugin`)
 
