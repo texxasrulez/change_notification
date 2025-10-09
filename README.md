@@ -1,13 +1,13 @@
 # change_notification — Roundcube plugin
 
-[![Packagist](https://img.shields.io/packagist/dt/texxasrulez/change_notification?style=plastic&labelColor=blue&color=gold)](https://packagist.org/packages/texxasrulez/change_notification)
-[![Packagist Version](https://img.shields.io/packagist/v/texxasrulez/change_notification?style=plastic&logo=packagist&logoColor=white&labelColor=blue&color=limegreen)](https://packagist.org/packages/texxasrulez/change_notification)
-[![Project license](https://img.shields.io/github/license/texxasrulez/change_notification?style=plastic&labelColor=blue&color=coral)](https://github.com/texxasrulez/change_notification/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/texxasrulez/change_notification?style=plastic&logo=github&labelColor=blue&color=deepskyblue)](https://github.com/texxasrulez/change_notification/stargazers)
-[![issues](https://img.shields.io/github/issues/texxasrulez/change_notification?style=plastic&labelColor=blue&color=aqua)](https://github.com/texxasrulez/change_notification/issues)
-[![GitHub contributors](https://img.shields.io/github/contributors/texxasrulez/change_notification?style=plastic&logo=github&logoColor=white&labelColor=blue&color=orchid)](https://github.com/texxasrulez/change_notification/graphs/contributors)
-[![GitHub forks](https://img.shields.io/github/forks/texxasrulez/change_notification?style=plastic&logo=github&logoColor=white&labelColor=blue&color=darkorange)](https://github.com/texxasrulez/change_notification/forks)
-[![Donate to this project using Paypal](https://img.shields.io/badge/paypal-money_please-blue.svg?style=plastic&labelColor=blue&color=forestgreen&logo=paypal)](https://www.paypal.me/texxasrulez)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/texxasrulez/change_notification?style=plastic&logo=packagist&logoColor=white&label=Downloads&labelColor=blue&color=gold)](https://packagist.org/packages/texxasrulez/change_notification)
+[![Packagist Version](https://img.shields.io/packagist/v/texxasrulez/change_notification?style=plastic&logo=packagist&logoColor=white&label=Version&labelColor=blue&color=limegreen)](https://packagist.org/packages/texxasrulez/change_notification)
+[![Github License](https://img.shields.io/github/license/texxasrulez/change_notification?style=plastic&logo=github&label=License&labelColor=blue&color=coral)](https://github.com/texxasrulez/change_notification/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/texxasrulez/change_notification?style=plastic&logo=github&label=Stars&labelColor=blue&color=deepskyblue)](https://github.com/texxasrulez/change_notification/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/texxasrulez/change_notification?style=plastic&logo=github&label=Issues&labelColor=blue&color=aqua)](https://github.com/texxasrulez/change_notification/issues)
+[![GitHub Contributors](https://img.shields.io/github/contributors/texxasrulez/change_notification?style=plastic&logo=github&logoColor=white&label=Contributors&labelColor=blue&color=orchid)](https://github.com/texxasrulez/change_notification/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/texxasrulez/change_notification?style=plastic&logo=github&logoColor=white&label=Forks&labelColor=blue&color=darkorange)](https://github.com/texxasrulez/change_notification/forks)
+[![Donate Paypal](https://img.shields.io/badge/Paypal-Money_Please!-blue.svg?style=plastic&labelColor=blue&color=forestgreen&logo=paypal)](https://www.paypal.me/texxasrulez)
 
 **License:** GPLv3  
 **Composer:** `texxasrulez/change_notification` (type: `roundcube-plugin`)
