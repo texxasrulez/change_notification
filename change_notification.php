@@ -6,6 +6,20 @@
  */
 class change_notification extends rcube_plugin
 {
+    const PLUGIN_VERSION = '1.1.0';
+    const PLUGIN_INFO = array(
+        'name' => 'change_notification',
+        'vendor' => 'Gene Hawkins',
+        'version' => self::PLUGIN_VERSION,
+        'license' => 'GPL-3.0',
+        'uri' => 'https://github.com/texxasrulez/change_notification',
+    );
+
+    public static function info(): array
+    {
+        return self::PLUGIN_INFO;
+    }
+
     public $task = 'settings|mail';
 
     private $rc;
@@ -73,26 +87,32 @@ class change_notification extends rcube_plugin
         if ($p['section'] != 'mailbox') return $p;
 
         $field_name = 'rcmfd_change_notification_file';
+        $select_name = '_change_notification_selected';
         $accept = '.' . implode(',.', $this->allowed_ext);
         $input = html::tag('input', array('type'=>'file','name'=>$field_name,'accept'=>$accept));
+        $selection_marker = html::tag('input', array(
+            'type'  => 'hidden',
+            'name'  => '_change_notification_selection_present',
+            'value' => '1',
+        ));
 
         $current = $this->get_user_relpath();
-        $current_html = '';
-        if ($current) {
-            $playurl = html::quote($this->current_user_sound_url());
-            $basename = rcube::Q(basename($current));
-            $current_html = html::div(null,
-                html::span(null, rcube::Q($this->gettext('currentsound') . ': ')) . $basename . ' ' .
-                html::a(array('href'=>$playurl,'onclick'=>"new Audio('".$playurl."').play(); return false;"), rcube::Q($this->gettext('playtest')))
-            );
-        }
+        $current_html = $this->build_current_sound_html($current);
+        $choices_html = $this->build_sound_choices_html($current, $select_name);
 
         $upload_url = $this->rc->url(array('_task'=>'settings','_action'=>'plugin.change_notification.upload'));
         $token = $this->rc->get_request_token();
 		$onclick = "(function(){var fi=document.querySelector('input[name={$field_name}]');if(!fi||!fi.files||!fi.files[0]){alert('Pick a file first');return false;}var fd=new FormData();fd.append('{$field_name}',fi.files[0]);fd.append('_token','{$token}');var x=new XMLHttpRequest();x.open('POST','{$upload_url}',true);x.setRequestHeader('X-Requested-With','XMLHttpRequest');x.onreadystatechange=function(){if(x.readyState===4){try{var r=JSON.parse(x.responseText);}catch(e){r={};}if(r.ok){setTimeout(function(){window.location.reload();},400);}else{alert('Upload failed');}}};x.send(fd);})();";
         $upload_btn = html::tag('button', array('type'=>'button','id'=>'change-sound-upload-btn','class'=>'button mainaction','onclick'=>$onclick), rcube::Q($this->gettext('uploadsound')));
 
-        $content = $input . html::br() . html::span('hint', rcube::Q($this->gettext('hint'))) . $current_html . html::br() . $upload_btn;
+        $content = $input
+            . html::br()
+            . $selection_marker
+            . html::span('hint', rcube::Q($this->gettext('hint')))
+            . $choices_html
+            . $current_html
+            . html::br()
+            . $upload_btn;
 
         $p['blocks']['change_notification'] = array(
             'name' => rcube::Q($this->gettext('changesound')),
@@ -107,7 +127,22 @@ class change_notification extends rcube_plugin
         return $p;
     }
 
-    public function prefs_save($p) { return $p; }
+    public function prefs_save($p)
+    {
+        if ($p['section'] != 'mailbox') return $p;
+
+        $selection_present = rcube_utils::get_input_value('_change_notification_selection_present', rcube_utils::INPUT_POST);
+        $selected = rcube_utils::get_input_value('_change_notification_selected', rcube_utils::INPUT_POST);
+        $selected = is_string($selected) ? trim($selected) : '';
+
+        if ($selection_present) {
+            $p['prefs']['change_notification_file'] = ($selected !== '' && $this->is_valid_user_relpath($selected))
+                ? $selected
+                : '';
+        }
+
+        return $p;
+    }
 
     public function handle_upload()
     {
@@ -218,6 +253,121 @@ class change_notification extends rcube_plugin
     {
         $prefs = $this->rc->user ? $this->rc->user->get_prefs() : array();
         return isset($prefs['change_notification_file']) ? $prefs['change_notification_file'] : null;
+    }
+
+    private function build_current_sound_html($current)
+    {
+        if (!$current || !$this->is_valid_user_relpath($current)) {
+            return '';
+        }
+
+        $playurl = html::quote($this->rc->url(array(
+            '_action' => 'plugin.change_notification.get',
+            '_id'     => $current,
+            '_'       => time(),
+        )));
+        $basename = rcube::Q(basename($current));
+
+        return html::div(null,
+            html::span(null, rcube::Q($this->gettext('currentsound') . ': '))
+            . $basename
+            . ' '
+            . html::a(array(
+                'href'                             => $playurl,
+                'onclick'                          => "new Audio('".$playurl."').play(); return false;",
+                'data-change-notification-preview' => $playurl,
+            ), rcube::Q($this->gettext('playtest')))
+        );
+    }
+
+    private function build_sound_choices_html($current, $select_name)
+    {
+        $sounds = $this->list_user_sounds();
+        if (empty($sounds)) {
+            return '';
+        }
+
+        $items = array();
+        foreach ($sounds as $rel) {
+            $basename = rcube::Q(basename($rel));
+            $checked = ($rel === $current);
+            $playurl = html::quote($this->rc->url(array(
+                '_action' => 'plugin.change_notification.get',
+                '_id'     => $rel,
+                '_'       => time(),
+            )));
+
+            $checkbox = html::tag('input', array(
+                'type'                          => 'checkbox',
+                'name'                          => $select_name,
+                'value'                         => $rel,
+                'checked'                       => $checked ? 'checked' : null,
+                'data-change-notification-pick' => 1,
+            ));
+            $label = html::tag('label', null, $checkbox . ' ' . $basename);
+            $preview = html::a(array(
+                'href'                             => $playurl,
+                'onclick'                          => "new Audio('".$playurl."').play(); return false;",
+                'data-change-notification-preview' => $playurl,
+            ), rcube::Q($this->gettext('playtest')));
+
+            $items[] = html::tag('li', null, $label . ' ' . $preview);
+        }
+
+        return html::div(null,
+            html::div(null, 'Available notification files:')
+            . html::tag('ul', array('class' => 'change-notification-list'), implode('', $items))
+        );
+    }
+
+    private function list_user_sounds()
+    {
+        if (!$this->rc->user) {
+            return array();
+        }
+
+        $uid = $this->rc->user->ID;
+        $udir = $this->storage_dir . '/' . $uid;
+        if (!is_dir($udir) || !is_readable($udir)) {
+            return array();
+        }
+
+        $sounds = array();
+        foreach (scandir($udir) as $name) {
+            if ($name === '.' || $name === '..') {
+                continue;
+            }
+
+            $path = $udir . '/' . $name;
+            if (!is_file($path) || !is_readable($path)) {
+                continue;
+            }
+
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            if (!in_array($ext, $this->allowed_ext, true)) {
+                continue;
+            }
+
+            $sounds[] = $uid . '/' . $name;
+        }
+
+        natcasesort($sounds);
+        return array_values($sounds);
+    }
+
+    private function is_valid_user_relpath($rel)
+    {
+        if (!$this->rc->user || !is_string($rel) || $rel === '') {
+            return false;
+        }
+
+        $uid = (string) $this->rc->user->ID;
+        if (!preg_match('/^' . preg_quote($uid, '/') . '\/[A-Za-z0-9._-]+$/', $rel)) {
+            return false;
+        }
+
+        $path = rtrim($this->storage_dir, '/\\') . DIRECTORY_SEPARATOR . $rel;
+        return is_file($path) && is_readable($path);
     }
 
     private function require_settings_task()

@@ -46,3 +46,15 @@ Optionally copy `plugins/change_notification/config.inc.php.dist` to
 ## Uninstall
 - Disable the plugin and remove the directory.
 - User prefs key `change_notification_file` can be left or removed.
+
+## Versioning
+- `change_notification` now keeps its canonical version in `change_notification::PLUGIN_VERSION` inside `change_notification.php`.
+- `change_notification::info()` exposes the plugin metadata array used for self-identification.
+- Development builds should use a `+dev` suffix such as `1.0.0+dev`.
+- Release builds should use a clean tagged version such as `1.0.0`.
+
+For a release bump:
+1. Update `change_notification::PLUGIN_VERSION` in `change_notification.php` or run `sh scripts/bump-version.sh 1.0.0`.
+2. Update `CHANGELOG.md`.
+3. Create the matching release tag after verification.
+
