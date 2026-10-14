@@ -1,0 +1,22 @@
+/* Vertical alignment for the first column (Titles) */
+.change_notification td:nth-child(1) {
+    padding-top: 4px;
+    vertical-align: top;
+}
+
+/* Flex-stack the inputs vertically inside the content column */
+.change_notification td:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Fix text constraint issues for description and hints */
+.change_notification span.hint {
+    margin: 5px 0 10px 0;
+    overflow-wrap: break-word; /* Modern standard to break unbreakable words */
+    word-wrap: break-word;     /* Legacy alias for older browsers */
+    white-space: normal;
+    font-style: italic;
+    display: block;            /* Ensures text spans full row width inside flex context */
+}
