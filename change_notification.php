@@ -72,6 +72,9 @@ class change_notification extends rcube_plugin
         // Client JS (handles intercepting/playing the custom chime)
         $this->include_script('change_notification.js');
 
+		// Client CSS
+		$this->include_stylesheet('change_notification.css');
+
         // Publish per-user URL for client
         if ($url = $this->current_user_sound_url()) {
             $this->rc->output->set_env('change_notification_url', $url);
@@ -106,12 +109,10 @@ class change_notification extends rcube_plugin
         $upload_btn = html::tag('button', array('type'=>'button','id'=>'change-sound-upload-btn','class'=>'button mainaction','onclick'=>$onclick), rcube::Q($this->gettext('uploadsound')));
 
         $content = $input
-            . html::br()
             . $selection_marker
             . html::span('hint', rcube::Q($this->gettext('hint')))
             . $choices_html
             . $current_html
-            . html::br()
             . $upload_btn;
 
         $p['blocks']['change_notification'] = array(
